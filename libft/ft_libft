@@ -1,0 +1,46 @@
+atoi		: convertit une string en int
+bzero		: initialise toute la chaine a \0
+isalnum		: retourne 1 si le charactere est un alphanumerique
+isalpha		: ................................une lettre
+isascii		: ................................dans ascii
+isdigit		: ................................numerique
+isprint		: ................................imprimable
+itoa		: convertit un int en string
+lstadd		: ajoute un maillon en debut de liste
+lstdel		: supprime toute une liste
+lstdelone	: supprime un maillon d'une liste
+lstiter		: applique une fonction a tout les maillon d'une liste
+lstmap		: 
+lstnew		: cree une copie d'un maillon
+lstnew_cpy	: 
+memalloc	: alloue une nouvelle string d'une taille donne et initialise la chaine a \0
+memccpy		: copie les n premier charactere ou jusquau caactere c et renvoie un pointeur de dst a c + 1 ou NULL si pas de c
+memchr		: retourne la premiere occurence d'un charactere dans une chaine
+memcmp		: renvoie la comparaison entre 2chaine
+memcpy		: copie n caractere de src dans dst
+memdel		: free un **ap
+memmove		: copie n caratere de src vers dest alors que les adresses de src et dest se chevauche
+memset		: initialise n caractere d'une chaine au caractere c
+putchar		: ecris un carac sur la sortie standard
+putchar_fd	: ecris un carc sur la sortie designe
+putendl		: ecris une string sur la sortie standard avec un retour a la ligne
+putend_fd	: ...............................designe...........................
+putnbr		: ecris un entier sur la sortie standard
+putnbr_fd	: ..............................designe
+putstr		: ecris une string sur la sortie standard
+putstr_fd	: ...............................designe
+strcat		: met une string derriere une autre
+strchr		: retourne le pointeur d'ou est le caractere dans la string 
+strclr		: met a 0 tout les charactere d'une chaine
+strcmp		: compare 2 chaine de charactere
+strcpy		: retiurne la copie d'une chaine de charactere
+strdel		: libere une chaine de caractere (char **as);
+strdup		: alloue une chaine de caractere de la taille de la chaine que lon veut copier puis la copie et la retourne
+strequ		:
+striter		: applique une fonction a chaque caratere d'une chaine
+striteri	: ---------------------------------------------------- avec l'indice du caactere
+strjoin		: alloue une chaine de charactere a la somme des 2 chaine que l'on veut coller l'une apres lautre puis ls joint et retourne cette chaine.
+strlcat		: 
+strlen		: donne la longueur d'une chaine de charactere
+strmap		: 
+
