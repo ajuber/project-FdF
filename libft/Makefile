@@ -35,7 +35,8 @@ SRC_C=		ft_memset.c		ft_bzero.c		ft_memcpy.c\
 			ft_strsplit.c	ft_putnbr.c		ft_putnbr_fd.c\
 			ft_itoa.c		ft_lstnew.c		ft_lstdelone.c\
 			ft_lstdel.c		ft_lstadd.c		ft_lstiter.c\
-			ft_lstmap.c		ft_lstnew_cpy.c	get_next_line.c
+			ft_lstmap.c		ft_lstnew_cpy.c	get_next_line.c\
+			ft_iterative_power.c
 
 SRC_O=$(SRC_C:.c=.o)
 

@@ -50,17 +50,33 @@ void	ligne(void *mlx, void *win, int repere,t_pnt size, t_pnt pnt,int tab[11][19
 	int		mem_size_x;
 	int 	mem_size_y;
 	int		i;
+	char	*str;
+	int		color;
+	int		j;
+	int		pow;
 
+	j = 0;
+	color = 0;
+	str = ft_strdup("0x00FFFFFF");
 	i = 1;
 	mem_size_y = size.y;
 	mem_size_x = size.x + repere;
 	a = (float)(tab[pnt.y][pnt.x + 1] - tab[pnt.y][pnt.x]) / repere;
 	b = (size.y - tab[pnt.y][pnt.x]) - (a * size.x);
 	size.x++;
+	if (tab[pnt.y][pnt.x + 1] > 0)
+		str = ft_strcpy(str, "0x00FFFFFF");
+	while (j < 10)
+	{
+		pow = ft_iterative_power(10, 9 - j);
+		color = (int)str[j] * pow + color;
+		j++;
+	}
+	ft_putnbr(color);
 	while (size.x < mem_size_x)
 	{
 		size.y = mem_size_y - tab[pnt.y][pnt.x] + i * -a;
-		mlx_pixel_put(mlx, win, size.x, size.y, 0x00FFFFFF);
+		mlx_pixel_put(mlx, win, size.x, size.y, color);
 		size.x++;
 		i++;
 	}
@@ -112,7 +128,7 @@ int main(int argc, char **argv)
 	repere = 378/18;
 	size.y = 11;
 	win = mlx_new_window(mlx, 400, 400, "mlx 42");
-	while (size.y <= 400)
+	while (size.y <= 230)
 	{
 		pnt.x = 0;
 		size.x = 11;
