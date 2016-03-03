@@ -5,74 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/23 18:17:40 by ajubert           #+#    #+#             */
-/*   Updated: 2015/12/23 18:17:56 by ajubert          ###   ########.fr       */
+/*   Created: 2015/11/26 15:41:14 by ajubert           #+#    #+#             */
+/*   Updated: 2016/03/03 14:25:43 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.H>
 
-static int	check_nb_word(char const *s, char c)
+int		ft_nb_word(char const *s, char c)
 {
-	int	i;
-	int	nb_word;
+	int i;
+	int word;
+	int nb_word;
 
-	i = 0;
+	word = 1;
 	nb_word = 0;
-	while (*(s + i) != 0)
+	i = 0;
+	while (s[i])
 	{
-		if (*(s + i) != c)
+		if (s[i] != c && word)
 		{
 			nb_word++;
-			while (*(s + i) != c && *(s + i) != 0)
-				i++;
-			if (*(s + i) == 0)
-				i--;
+			word = 0;
 		}
+		if (s[i] == c)
+			word = 1;
 		i++;
 	}
 	return (nb_word);
 }
 
-static void	alloc_str(char ***tab_str, char const *s, int *i, int *i2)
+char	**ft_allocation(char const *s, char **str, int nb_word, char c)
 {
-	if (*i2 > 0)
-	{
-		**tab_str = (char*)malloc(*i2 + 1);
-		ft_strncpy(**tab_str, (s + *i), *i2);
-		*(**tab_str + *i2) = 0;
-		*tab_str = *tab_str + 1;
-		*i = *i + *i2 - 1;
-		*i2 = 0;
-	}
-}
+	int word;
+	int i;
+	int j;
 
-char		**ft_strsplit(char const *s, char c)
-{
-	int		i;
-	int		i2;
-	int		nb_word;
-	char	**tab_str;
-
+	str = (char **)malloc(sizeof(char *) * (nb_word + 1));
 	i = 0;
-	i2 = 0;
-	if (!s || !c)
-		return (NULL);
-	nb_word = check_nb_word(s, c);
-	tab_str = (char**)malloc(sizeof(char*) * (nb_word + 1));
-	if (!tab_str)
-		return (NULL);
-	tab_str[nb_word] = 0;
-	while (s[i])
+	j = 0;
+	while (i < nb_word + 1)
 	{
-		if (s[i] != c)
+		word = 0;
+		while (s[j] == c && s[j])
+			j++;
+		while (s[j] != c && s[j])
 		{
-			while (s[i + i2] != c && s[i + i2])
-				i2++;
-			alloc_str(&tab_str, s, &i, &i2);
+			word++;
+			j++;
 		}
+		str[i] = (char *)malloc(sizeof(char) * (word + 1));
 		i++;
 	}
-	return (tab_str);
+	if (str == NULL)
+		return (NULL);
+	return (str);
+}
+
+char	**ft_split(char const *s, char c, char **str, int nb_word)
+{
+	int word;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < nb_word)
+	{
+		word = 0;
+		while (s[j] == c && s[j])
+			j++;
+		while (s[j] != c && s[j])
+		{
+			str[i][word] = s[j];
+			j++;
+			word++;
+		}
+		str[i][word] = '\0';
+		i++;
+	}
+	str[i][0] = '\0';
+	return (str);
+}
+
+char	**ft_strsplit(char const *s, char c)
+{
+	int		nb_word;
+	char	**str;
+
+	str = NULL;
+	nb_word = ft_nb_word(s, c);
+	str = ft_allocation(s, str, nb_word, c);
+	str = ft_split(s, c, str, nb_word);
+	return (str);
 }
