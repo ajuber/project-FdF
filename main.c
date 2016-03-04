@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:02:43 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/03 16:01:26 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/04 19:59:16 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,10 @@ void	ligne(void *mlx, void *win, int repere,t_pnt size, t_pnt pnt,int **tab)
 	str = ft_strdup("0x00FFFFFF");
 	i = 1;
 	mem_size_y = size.y;
+	size.x = size.x - ((repere / 2) * pnt.y);
 	mem_size_x = size.x + repere;
 	a = (float)(tab[pnt.y][pnt.x + 1] - tab[pnt.y][pnt.x]) / repere;
-	b = (size.y - tab[pnt.y][pnt.x]) - (a * size.x);
+	//b = (size.y - tab[pnt.y][pnt.x]) - (a * size.x);
 	size.x++;
 	if (tab[pnt.y][pnt.x + 1] > 0)
 		str = ft_strcpy(str, "0x00FFFFFF");
@@ -106,50 +107,80 @@ void	ligne(void *mlx, void *win, int repere,t_pnt size, t_pnt pnt,int **tab)
 
 void	colonne(void *mlx, void *win, int repere, t_pnt size, t_pnt pnt, int **tab)
 {
-	int mem_size_y;
+	int		mem_size_y;
+	int		mem_size_x;
+	float	a;
+	float	b;
+	float	i;
 
+	i = 0;
+	mem_size_x = size.x - ((repere / 2) * pnt.y);
+	//printf("memsize.x : %d\n",mem_size_x);
+	//a = (float)((tab[pnt.y + 1][pnt.x] - ((repere / 2) * pnt.y) - tab[pnt.y][pnt.x]) / repere);
+	b = size.y - tab[pnt.y][pnt.x];
 	mem_size_y = size.y + repere - tab[pnt.y + 1][pnt.x];
-	printf("%d----------%d\n",mem_size_y, size.y);
 	size.y = size.y - tab[pnt.y][pnt.x];
+	//a = (float)(mem_size_y - size.y) / (size.x - ((repere / 2) * (pnt.y + 1)) - mem_size_x);
+	printf("a : %f -------- b : %f\n", a, b);
+	a = -1;
 	while (++size.y < mem_size_y)
-		mlx_pixel_put(mlx, win, size.x, size.y, 0x00FFFFFF);
+	{
+		i += 0.5;
+//		size.x = mem_size_x - (0.5 * i);
+		size.x = mem_size_x - tab[pnt.y][pnt.x] + (i * a);
+	//	printf("size.x : %d\n",size.x);
+		if (size.x > 0 && size.x < l && size.y > 0 && size.y < l)
+			mlx_pixel_put(mlx, win, size.x, size.y, 0x00FFFFFF);
+	}
 }
 
 int main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*win;
+	t_param	param;
 	char	**str;
 	int		**tab1;
 	t_pnt	size;
+	t_pnt	size_win;
 	t_pnt	pnt;
 	int		repere;
+	t_pnt	test;
 
 	str = recup_file(argv[1]);
 	size = count(str);
 	tab1 = char_to_int(size, str);
-	mlx = mlx_init();
+	param.mlx = mlx_init();
 	pnt.y = 0;
-	repere = 378/18;
-	size.y = 11;
-	win = mlx_new_window(mlx, 400, 400, "mlx 42");
-	while (size.y <= 230)
+	if (size.x < size.y)
+		repere = (h / 2) / (size.y - 1);
+	else
+		repere = (l / 2) / (size.x - 1);
+	size_win.y = (h / 2) - ((size.y / 2) * repere);
+	test.y = size_win.y;
+	size_win.x = (l / 2) - ((size.x / 2) * repere);
+	test.x = size_win.x;
+	//size.y = 11;
+	param.win = mlx_new_window(param.mlx, l, h, "mlx 42");
+	ft_putendl("-------------boucle-------------");
+	while (size_win.y <= test.y + ((size.y - 1) * repere))
 	{
 		pnt.x = 0;
-		size.x = 11;
-		while (size.x <= 390)
+		size_win.x = (l / 2) - ((size.x / 2) * repere);
+		//size.x = 11;
+		while (size_win.x <= test.x + ((size.x - 1) * repere))
 		{
-			mlx_pixel_put(mlx, win, size.x, size.y - tab1[pnt.y][pnt.x], 0x00FFFFFF);
-			if (pnt.x < 18)
-				ligne(mlx, win, repere, size, pnt, tab1);
-			if (pnt.y < 10)
-				colonne(mlx, win, repere, size, pnt, tab1);
-			size.x += repere;
+			mlx_pixel_put(param.mlx, param.win, size_win.x - ((repere / 2) * pnt.y), size_win.y - tab1[pnt.y][pnt.x], 0x00FFFFFF);
+			if (pnt.x < size.x - 1)
+				ligne(param.mlx, param.win, repere, size_win, pnt, tab1);
+			if (pnt.y < size.y - 1)
+				colonne(param.mlx, param.win, repere, size_win, pnt, tab1);
+			size_win.x += repere;
 			pnt.x++;
 		}
-		size.y += repere;
+		size_win.y += repere;
 		pnt.y++;
 	}
-	mlx_loop(mlx);
+	ft_putendl("-------------fin boucle-------------");
+	mlx_key_hook(param.win, my_key_funct, 0);
+	mlx_loop(param.mlx);
 	return (0);
 }
