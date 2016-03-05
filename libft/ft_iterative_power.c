@@ -6,11 +6,11 @@
 /*   By: ajubert <ajubert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/13 11:12:53 by ajubert           #+#    #+#             */
-/*   Updated: 2015/07/13 12:52:24 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/05 16:24:56 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_iterative_power(int nb, int power)
+int		ft_iterative_power(int nb, int power)
 {
 	int r;
 	int i;

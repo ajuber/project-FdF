@@ -6,14 +6,14 @@
 #    By: ajubert <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/05 14:28:27 by ajubert           #+#    #+#              #
-#    Updated: 2016/03/05 14:37:20 by ajubert          ###   ########.fr        #
+#    Updated: 2016/03/05 18:22:50 by ajubert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=		fdf
 
 COMPILER=	gcc
-FLAGS=		-lmlx -framework OpenGl -framework AppKit -Wall -Werror -Wextra -I.
+FLAGS=		-Lminilibx_macos -framework OpenGl -framework AppKit -Wall -Werror -Wextra -I.
 LIB=		libft.a
 
 SRC_C=		main.c					char_to_int.c\

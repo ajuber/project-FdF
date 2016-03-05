@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:02:43 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/05 16:28:45 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/05 18:14:30 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,21 @@ void	colonne(t_var var)
 	}
 }
 
-void	pre_calc(t_var var, t_pnt test, t_pnt size_tab)
+void	pre_calc(t_var var, t_pnt test)
 {
 	var.pnt.y = 0;
-	while (var.size.y <= test.y + ((size_tab.y - 1) * var.repere))
+	while (var.size.y <= test.y + ((var.size_tab.y - 1) * var.repere))
 	{
 		var.pnt.x = 0;
-		var.size.x = (L / 2) - ((size_tab.x / 2) * var.repere);
-		while (var.size.x <= test.x + ((size_tab.x - 1) * var.repere))
+		var.size.x = (L / 2) - ((var.size_tab.x / 2) * var.repere);
+		while (var.size.x <= test.x + ((var.size_tab.x - 1) * var.repere))
 		{
 			mlx_pixel_put(var.param.mlx, var.param.win, var.size.x
 					- ((var.repere / 2) * var.pnt.y),
 					var.size.y - var.tab[var.pnt.y][var.pnt.x], 0x00FFFFFF);
-			if (var.pnt.x < size_tab.x - 1)
+			if (var.pnt.x < var.size_tab.x - 1)
 				ligne(var);
-			if (var.pnt.y < size_tab.y - 1)
+			if (var.pnt.y < var.size_tab.y - 1)
 				colonne(var);
 			var.size.x += var.repere;
 			var.pnt.x++;
@@ -119,18 +119,17 @@ void	pre_calc(t_var var, t_pnt test, t_pnt size_tab)
 int		main(int argc, char **argv)
 {
 	char	**str;
-	t_pnt	size_tab;
 	t_pnt	test;
 	t_var	var;
 
 	str = recup_file(argv[1]);
-	size_tab = count(str);
-	var.tab = char_to_int(size_tab, str);
+	var.size_tab = count(str);
+	var.tab = char_to_int(var.size_tab, str);
 	var.param.mlx = mlx_init();
-	test = calc_repere(&var, size_tab);
+	test = calc_repere(&var);
 	var.param.win = mlx_new_window(var.param.mlx, L, H, "FdF");
-	pre_calc(var, test, size_tab);
-	mlx_key_hook(var.param.win, my_key_funct, 0);
+	pre_calc(var, test);
+	mlx_key_hook(var.param.win, my_key_funct, &var);
 	mlx_loop(var.param.mlx);
 	return (0);
 }
