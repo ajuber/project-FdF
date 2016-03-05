@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:02:43 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/04 20:21:58 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/05 13:43:11 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,24 +107,25 @@ void	ligne(void *mlx, void *win, int repere,t_pnt size, t_pnt pnt,int **tab)
 
 void	colonne(void *mlx, void *win, int repere, t_pnt size, t_pnt pnt, int **tab)
 {
-	int		mem_size_y;
-	int		mem_size_x;
+	float	mem_size_y;
+	float	mem_size_x;
 	float	a;
 	float	b;
 	float	i;
 
 	i = 0;
-	mem_size_x = size.x - ((repere / 2) * pnt.y);
+	mem_size_x = (float)(size.x - ((repere / 2) * pnt.y));
 	//printf("memsize.x : %d\n",mem_size_x);
 	//a = (float)((tab[pnt.y + 1][pnt.x] - ((repere / 2) * pnt.y) - tab[pnt.y][pnt.x]) / repere);
 	b = size.y - tab[pnt.y][pnt.x];
-	mem_size_y = size.y + repere - tab[pnt.y + 1][pnt.x];
+	mem_size_y = (float)(size.y + repere - tab[pnt.y + 1][pnt.x]);
 	size.y = size.y - tab[pnt.y][pnt.x];
-	a = (float)(mem_size_y - size.y) / ((size.x - ((repere / 2) * (pnt.y + 1))) - mem_size_x) * 0.5;
-	if (a < -1)
-		a = a + 1;
-	else if (a > -1)
-		a = a - 1;
+//	a = (float)1.000 / ((mem_size_y - size.y) / ((size.x - ((repere / 2) * (pnt.y + 1))) - mem_size_x) * 0.5);
+	a = (float)(1.000 / ((mem_size_y - size.y) / ((size.x - ((repere / 2) * (pnt.y + 1))) - mem_size_x) * 0.5));
+	//if (a < -1)
+	//	a = a + 1;
+//	else if (a > -1)
+//		a = a - 1;
 	printf("a : %f -------- b : %f\n", a, b);
 	//a = -1;
 	while (++size.y < mem_size_y)
