@@ -3,20 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mdos-san <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ajubert <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/10 18:32:34 by mdos-san          #+#    #+#              #
-#    Updated: 2015/12/15 13:44:18 by ajubert          ###   ########.fr        #
+#    Created: 2016/03/05 14:28:27 by ajubert           #+#    #+#              #
+#    Updated: 2016/03/05 14:37:20 by ajubert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=		fillit
+NAME=		fdf
 
 COMPILER=	gcc
-FLAGS=		-lmlx -lXext -lX11 -Wall -Werror -Wextra -I.
+FLAGS=		-lmlx -framework OpenGl -framework AppKit -Wall -Werror -Wextra -I.
 LIB=		libft.a
 
-SRC_C=		main.c
+SRC_C=		main.c					char_to_int.c\
+			my_key_funct.c
 
 SRC_O=		$(SRC_C:.c=.o)
 
@@ -24,7 +25,7 @@ all: libft.a libft.h $(NAME)
 
 $(NAME): $(SRC_O)
 	$(COMPILER) $(FLAGS) -o $(NAME) $(SRC_O) $(LIB)
-	@echo "\033[32m=======FILLIT HAS BEEN CREATED=======\033[0m"
+	@echo "\033[32m=======FDF HAS BEEN CREATED=======\033[0m"
 
 %.o: %.c
 	$(COMPILER) $(FLAGS) -c $<

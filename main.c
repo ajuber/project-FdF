@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:02:43 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/05 13:43:11 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/05 15:41:49 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,47 +65,33 @@ char	**recup_file(char *str)
 	return (line);
 }
 
-void	ligne(void *mlx, void *win, int repere,t_pnt size, t_pnt pnt,int **tab)
+void	ligne(t_var var)
 {
 	float	a;
 	float	b;
 	int		mem_size_x;
-	int 	mem_size_y;
+	int		mem_size_y;
 	int		i;
-	char	*str;
-	int		color;
-	int		j;
-	int		pow;
 
-	j = 0;
-	color = 0;
-	str = ft_strdup("0x00FFFFFF");
 	i = 1;
-	mem_size_y = size.y;
-	size.x = size.x - ((repere / 2) * pnt.y);
-	mem_size_x = size.x + repere;
-	a = (float)(tab[pnt.y][pnt.x + 1] - tab[pnt.y][pnt.x]) / repere;
-	//b = (size.y - tab[pnt.y][pnt.x]) - (a * size.x);
-	size.x++;
-	if (tab[pnt.y][pnt.x + 1] > 0)
-		str = ft_strcpy(str, "0x00FFFFFF");
-	while (j < 10)
+	mem_size_y = var.size.y;
+	var.size.x = var.size.x - ((var.repere / 2) * var.pnt.y);
+	mem_size_x = var.size.x + var.repere;
+	a = (float)(var.tab[var.pnt.y][var.pnt.x + 1]
+			- var.tab[var.pnt.y][var.pnt.x]) / var.repere;
+	var.size.x++;
+	while (var.size.x < mem_size_x)
 	{
-		pow = ft_iterative_power(10, 9 - j);
-		color = (int)str[j] * pow + color;
-		j++;
-	}
-	while (size.x < mem_size_x)
-	{
-		size.y = mem_size_y - tab[pnt.y][pnt.x] + i * -a;
-		mlx_pixel_put(mlx, win, size.x, size.y, 0x00FFFFFF);
-		size.x++;
+		var.size.y = mem_size_y - var.tab[var.pnt.y][var.pnt.x] + i * -a;
+		mlx_pixel_put(var.param.mlx, var.param.win,
+				var.size.x, var.size.y, 0x00FFFFFF);
+		var.size.x++;
 		i++;
 	}
-	size.y = mem_size_y + 1;
+	var.size.y = mem_size_y + 1;
 }
 
-void	colonne(void *mlx, void *win, int repere, t_pnt size, t_pnt pnt, int **tab)
+void	colonne(t_var var)
 {
 	float	mem_size_y;
 	float	mem_size_x;
@@ -114,78 +100,58 @@ void	colonne(void *mlx, void *win, int repere, t_pnt size, t_pnt pnt, int **tab)
 	float	i;
 
 	i = 0;
-	mem_size_x = (float)(size.x - ((repere / 2) * pnt.y));
-	//printf("memsize.x : %d\n",mem_size_x);
-	//a = (float)((tab[pnt.y + 1][pnt.x] - ((repere / 2) * pnt.y) - tab[pnt.y][pnt.x]) / repere);
-	b = size.y - tab[pnt.y][pnt.x];
-	mem_size_y = (float)(size.y + repere - tab[pnt.y + 1][pnt.x]);
-	size.y = size.y - tab[pnt.y][pnt.x];
-//	a = (float)1.000 / ((mem_size_y - size.y) / ((size.x - ((repere / 2) * (pnt.y + 1))) - mem_size_x) * 0.5);
-	a = (float)(1.000 / ((mem_size_y - size.y) / ((size.x - ((repere / 2) * (pnt.y + 1))) - mem_size_x) * 0.5));
-	//if (a < -1)
-	//	a = a + 1;
-//	else if (a > -1)
-//		a = a - 1;
+	mem_size_x = (float)(var.size.x - ((var.repere / 2) * var.pnt.y));
+	b = var.size.y - var.tab[var.pnt.y][var.pnt.x];
+	mem_size_y = (float)(var.size.y + var.repere
+			- var.tab[var.pnt.y + 1][var.pnt.x]);
+	var.size.y = var.size.y - var.tab[var.pnt.y][var.pnt.x];
+	a = (float)(1.000 / ((mem_size_y - var.size.y) / ((var.size.x
+						- ((var.repere / 2) * (var.pnt.y + 1))) - mem_size_x)
+				* 0.5));
 	printf("a : %f -------- b : %f\n", a, b);
-	//a = -1;
-	while (++size.y < mem_size_y)
+	while (++var.size.y < mem_size_y)
 	{
 		i += 0.5;
-//		size.x = mem_size_x - (0.5 * i);
-		size.x = mem_size_x + (i * a);
-	//	printf("size.x : %d\n",size.x);
-		if (size.x > 0 && size.x < l && size.y > 0 && size.y < l)
-			mlx_pixel_put(mlx, win, size.x, size.y, 0x00FFFFFF);
+		var.size.x = mem_size_x + (i * a);
+		if (var.size.x > 0 && var.size.x < l &&
+				var.size.y > 0 && var.size.y < l)
+			mlx_pixel_put(var.param.mlx, var.param.win,
+					var.size.x, var.size.y, 0x00FFFFFF);
 	}
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-	t_param	param;
 	char	**str;
-	int		**tab1;
-	t_pnt	size;
-	t_pnt	size_win;
-	t_pnt	pnt;
-	int		repere;
+	t_pnt	size_tab;
 	t_pnt	test;
+	t_var	var;
 
 	str = recup_file(argv[1]);
-	size = count(str);
-	tab1 = char_to_int(size, str);
-	param.mlx = mlx_init();
-	pnt.y = 0;
-	if (size.x < size.y)
-		repere = (h / 2) / (size.y - 1);
-	else
-		repere = (l / 2) / (size.x - 1);
-	size_win.y = (h / 2) - ((size.y / 2) * repere);
-	test.y = size_win.y;
-	size_win.x = (l / 2) - ((size.x / 2) * repere);
-	test.x = size_win.x;
-	//size.y = 11;
-	param.win = mlx_new_window(param.mlx, l, h, "mlx 42");
-	ft_putendl("-------------boucle-------------");
-	while (size_win.y <= test.y + ((size.y - 1) * repere))
+	size_tab = count(str);
+	var.tab = char_to_int(size_tab, str);
+	var.param.mlx = mlx_init();
+	var.pnt.y = 0;
+	test = calc_repere(&var, size_tab);
+	var.param.win = mlx_new_window(var.param.mlx, l, h, "FdF");
+	while (var.size.y <= test.y + ((size_tab.y - 1) * var.repere))
 	{
-		pnt.x = 0;
-		size_win.x = (l / 2) - ((size.x / 2) * repere);
-		//size.x = 11;
-		while (size_win.x <= test.x + ((size.x - 1) * repere))
+		var.pnt.x = 0;
+		var.size.x = (l / 2) - ((size_tab.x / 2) * var.repere);
+		while (var.size.x <= test.x + ((size_tab.x - 1) * var.repere))
 		{
-			mlx_pixel_put(param.mlx, param.win, size_win.x - ((repere / 2) * pnt.y), size_win.y - tab1[pnt.y][pnt.x], 0x00FFFFFF);
-			if (pnt.x < size.x - 1)
-				ligne(param.mlx, param.win, repere, size_win, pnt, tab1);
-			if (pnt.y < size.y - 1)
-				colonne(param.mlx, param.win, repere, size_win, pnt, tab1);
-			size_win.x += repere;
-			pnt.x++;
+			mlx_pixel_put(var.param.mlx, var.param.win, var.size.x - ((var.repere / 2) * var.pnt.y), var.size.y - var.tab[var.pnt.y][var.pnt.x], 0x00FFFFFF);
+			if (var.pnt.x < size_tab.x - 1)
+				ligne(var);
+			if (var.pnt.y < size_tab.y - 1)
+				colonne(var);
+			var.size.x += var.repere;
+			var.pnt.x++;
 		}
-		size_win.y += repere;
-		pnt.y++;
+		var.size.y += var.repere;
+		var.pnt.y++;
 	}
-	ft_putendl("-------------fin boucle-------------");
-	mlx_key_hook(param.win, my_key_funct, 0);
-	mlx_loop(param.mlx);
+	mlx_key_hook(var.param.win, my_key_funct, 0);
+	mlx_loop(var.param.mlx);
 	return (0);
 }
