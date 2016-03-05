@@ -6,11 +6,11 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:42:23 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/05 14:11:18 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/05 16:29:47 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FdF.h"
+#include "fdf.h"
 
 int		**alloc(t_pnt size)
 {
@@ -53,4 +53,28 @@ int		**char_to_int(t_pnt size, char **str)
 		i.y++;
 	}
 	return (tab);
+}
+
+char	**recup_file(char *str)
+{
+	int		fd;
+	char	**line;
+	char	*str1;
+	char	*tmp;
+
+	line = (char **)malloc(sizeof(char *) * 1);
+	line[0] = ft_strdup("\0");
+	str1 = ft_strdup("\0");
+	fd = open(str, O_RDONLY);
+	while (get_next_line(fd, line))
+	{
+		tmp = &str1[0];
+		str1 = ft_strjoin(tmp, line[0]);
+		free(tmp);
+		tmp = &str1[0];
+		str1 = ft_strjoin(tmp, "\n");
+		free(tmp);
+	}
+	line = ft_strsplit(str1, '\n');
+	return (line);
 }
