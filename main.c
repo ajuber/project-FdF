@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 14:02:43 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/05 18:14:30 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/07 13:17:57 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_pnt	count(char **str)
 void	ligne(t_var var)
 {
 	float	a;
-	float	b;
 	int		mem_size_x;
 	int		mem_size_y;
 	int		i;
@@ -122,6 +121,8 @@ int		main(int argc, char **argv)
 	t_pnt	test;
 	t_var	var;
 
+	if (argc == 1)
+		ft_putendl("Pas de map");
 	str = recup_file(argv[1]);
 	var.size_tab = count(str);
 	var.tab = char_to_int(var.size_tab, str);

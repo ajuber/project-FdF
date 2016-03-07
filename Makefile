@@ -6,29 +6,35 @@
 #    By: ajubert <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/05 14:28:27 by ajubert           #+#    #+#              #
-#    Updated: 2016/03/05 18:22:50 by ajubert          ###   ########.fr        #
+#    Updated: 2016/03/07 13:10:06 by ajubert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#gcc main.c char_to_int.c my_key_funct.c calc_repere.c libft/libft.a -lmlx -framework OpenGL -framework AppKit
+
 
 NAME=		fdf
 
 COMPILER=	gcc
-FLAGS=		-Lminilibx_macos -framework OpenGl -framework AppKit -Wall -Werror -Wextra -I.
+FLAGS=		./minilibx_macos/libmlx.a -framework OpenGl -framework AppKit -Wall -Werror -Wextra
 LIB=		libft.a
+INCLUDES=	-I ./libft/includes/
 
-SRC_C=		main.c					char_to_int.c\
-			my_key_funct.c
+SRC_C=	main.c\
+		char_to_int.c\
+		my_key_funct.c\
+		calc_repere.c
 
 SRC_O=		$(SRC_C:.c=.o)
 
 all: libft.a libft.h $(NAME)
 
 $(NAME): $(SRC_O)
-	$(COMPILER) $(FLAGS) -o $(NAME) $(SRC_O) $(LIB)
+	$(COMPILER) -o $(NAME) $(FLAGS) $(SRC_O) $(LIB)
 	@echo "\033[32m=======FDF HAS BEEN CREATED=======\033[0m"
 
 %.o: %.c
-	$(COMPILER) $(FLAGS) -c $<
+	$(COMPILER) $(FLAGS) $(INCLUDES) -c $<
 
 libft.a:
 	@echo "\033[32m==================================="
