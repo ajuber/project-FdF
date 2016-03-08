@@ -6,7 +6,7 @@
 #    By: ajubert <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/05 14:28:27 by ajubert           #+#    #+#              #
-#    Updated: 2016/03/07 13:10:06 by ajubert          ###   ########.fr        #
+#    Updated: 2016/03/08 13:56:31 by ajubert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@
 NAME=		fdf
 
 COMPILER=	gcc
-FLAGS=		./minilibx_macos/libmlx.a -framework OpenGl -framework AppKit -Wall -Werror -Wextra
+FLAGS=		-lmlx -framework OpenGl -framework AppKit
+FLAG=		-Wall -Werror -Wextra
 LIB=		libft.a
 INCLUDES=	-I ./libft/includes/
 
@@ -30,11 +31,11 @@ SRC_O=		$(SRC_C:.c=.o)
 all: libft.a libft.h $(NAME)
 
 $(NAME): $(SRC_O)
-	$(COMPILER) -o $(NAME) $(FLAGS) $(SRC_O) $(LIB)
+	$(COMPILER) -o $(NAME) $(SRC_O) $(LIB) $(FLAGS) $(FLAG)
 	@echo "\033[32m=======FDF HAS BEEN CREATED=======\033[0m"
 
 %.o: %.c
-	$(COMPILER) $(FLAGS) $(INCLUDES) -c $<
+	$(COMPILER) $(FLAG) -c $<
 
 libft.a:
 	@echo "\033[32m==================================="

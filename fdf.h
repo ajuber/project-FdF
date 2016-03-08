@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 16:26:51 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/05 18:14:27 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/08 13:48:50 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 # include <stdlib.h>
-# include "mlx.h"
+# include <mlx.h>
 # include <fcntl.h>
 
 # define L 800

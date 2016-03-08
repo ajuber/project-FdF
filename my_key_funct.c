@@ -6,7 +6,7 @@
 /*   By: ajubert <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 18:10:19 by ajubert           #+#    #+#             */
-/*   Updated: 2016/03/07 13:57:33 by ajubert          ###   ########.fr       */
+/*   Updated: 2016/03/08 14:53:22 by ajubert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int		zoom(t_var *var)
 	t_pnt i;
 	t_pnt test;
 
-	var->repere *= 1.5;
-	return (0);
 	i.y = 0;
 	while (i.y < var->size_tab.y)
 	{
@@ -33,7 +31,9 @@ int		zoom(t_var *var)
 	}
 	mlx_clear_window(var->param.mlx, var->param.win);
 	test = calc_repere(var);
+	var->repere *= 1.5;
 	pre_calc(*var, test);
+	return (0);
 }
 
 int		my_key_funct(int keycode, t_var *var)
