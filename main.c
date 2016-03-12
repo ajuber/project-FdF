@@ -68,12 +68,10 @@ void	colonne(t_var var)
 	float	mem_size_y;
 	float	mem_size_x;
 	float	a;
-	float	b;
 	float	i;
 
 	i = 0;
 	mem_size_x = (float)(var.size.x - ((var.repere / 2) * var.pnt.y));
-	b = var.size.y - var.tab[var.pnt.y][var.pnt.x];
 	mem_size_y = (float)(var.size.y + var.repere
 			- var.tab[var.pnt.y + 1][var.pnt.x]);
 	var.size.y = var.size.y - var.tab[var.pnt.y][var.pnt.x];

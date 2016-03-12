@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.H>
+#include <stdlib.h>
 
 int		ft_nb_word(char const *s, char c)
 {
